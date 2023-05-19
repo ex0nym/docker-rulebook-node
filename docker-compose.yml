@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  rulebook-node:
+    container_name: local-rulebook-node
+    image: exox/rulebook-node:3.0.4
+    ports: 
+      - 2023:8080
+    env_file:
+        - node.env
+    volumes:
+      - ~/rulebook-node/static:/var/www/html/replication
+    networks:
+      - rulebook_net
+
+  x0basic:
+   container_name: local-x0basic
+   image: exox/x0basic:3.0.4
+   ports:
+     - 2024:2024/udp
+   env_file:
+     - node.env
+   networks:
+     - rulebook_net
+
+  sso-example:
+   container_name: sso-example
+   image: exox/sso-example:0.9.1
+   ports:
+     - 20001:8080
+   env_file:
+     - sso.env
+   networks:
+     - rulebook_net
+
+  couchdb:
+    container_name: local-couchdb
+    image: couchdb:3
+    environment:
+      - COUCHDB_USER=${DB_USERNAME}
+      - COUCHDB_PASSWORD=${DB_PASSWORD}
+    ports:
+      - 50984:5984
+    volumes:
+      - ~/rulebook-node/couchdb/data:/opt/couchdb/data
+    networks:
+      - rulebook_net
+
+networks:
+ rulebook_net:
+  name: rulebook_net
