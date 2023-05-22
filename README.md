@@ -3,68 +3,50 @@ Please see [our wiki](https://github.com/ex0nym/rulebook-node/wiki) for full-doc
 
 
 # Decentralized Rulebooks - Developer Orientation
+Decentralized Rulebooks enable transactional governance without centralized control. This approach empowers users with a democratic and distributed mechanism, eliminating constraints of centralized systems.
 
-Decentralized Rulebooks represent a transactional governance framework designed to facilitate the establishment of transaction governance without the need for centralized control. This novel approach empowers users by providing a democratic and distributed mechanism to oversee transactions, effectively eliminating the constraints traditionally associated with centralized systems.
-
-The Rulebook Node repository is responsible for managing Exonym nodes and facilitates 
-the setup of a _local_ Decentralized Rulebook Node using Docker containers. It serves as 
-the foundational infrastructure for deploying rulebooks using Trust Networks, 
-enabling the overall system to function effectively.
 
 ## Outcomes
-This documentation is designed to serve as a hands-on orientation for developers, aiming to provide a thorough understanding of the network topology and the lifecycle of its users. After going through this guide, developers will be able to:
+This documentation provides a hands-on orientation for developers to understand the network topology and user lifecycle. After reading this guide, developers will:
 
-- Grasp the clear roles and responsibilities associated with each actor within the system.
-- Comprehend the user lifecycle in its entirety (command line only), starting from how a user obtains a Sybil credential, interacts with their Exonym Wallet, and what their user experience entails.
-- Understand the concept of rulebook inheritance and the polymorphism offered by the rulebook schema. This will enable you to see how rules can be repurposed and reused across different contexts, adding a layer of flexibility to the system.
-- Experience firsthand the complete lifecycle of a user, from initial setup, subscription, revocation, to rejoining. This hands-on approach will help you understand how a user navigates through the system.
+- Understand actor roles and responsibilities.
+- Grasp the user lifecycle (command line), including Sybil credential acquisition, Exonym Wallet interaction, and user experience.
+- Explore rulebook inheritance and polymorphism, enhancing system flexibility.
+- Experience the complete user lifecycle, including setup, subscription, revocation, and rejoining. This hands-on approach offers practical insights into user navigation.
 
 ## **Quick Definitions:** 
 | Term | Definition |
 | --- | --- |
-| [Rulebook Document](https://github.com/ex0nym/rulebook-node/wiki/Rulebook-Definition) | An immutable set of rules formulated subjectively for wide acceptance and set at a universally agreeable standard. This document supports polymorphism, facilitating its federation and reuse. |
-| Source | May provide an interpretation of the rulebook and governs a reputation system within the narrow context defined by the rulebook. |
-| Advocate | An Advocate is an individual or entity that subscribes to a Source, interprets the rulebook further, and sets criteria for Producers to join their node. |
-| Trust Network | A Trust Network refers to a Source/Advocates reputation system, guided by a specific Rulebook document. |
-| Sybil | A service that not only resists clone accounts but also governs them by verifying the authenticity of individuals or entities. It further allows the control of authorized clone accounts across different classes. |
-| Exonym Wallet | The Exonym Wallet is a digital wallet for managing access to utilities. It empowers users with control over their personal data and transactions. |
-| Producer | A Producer is an individual or entity that creates content in adherence to an interpretation of a rulebook. They are accepted into the network by an Advocate, who safeguard Consumers. |
-| Consumer | A user who verifies a Proof of Current Honesty. |
+| [Rulebook Document](https://github.com/ex0nym/rulebook-node/wiki/Rulebook-Definition) | Immutable rules for wide acceptance, supporting polymorphism and reuse. |
+| Source | Interprets rulebook, governs reputation within its defined context. |
+| Advocate | Subscribes to a Source, interprets rulebook, sets criteria for Producers. |
+| Trust Network | Reputation system guided by a Rulebook document. |
+| Sybil | Service resisting clone accounts, verifies authenticity and controls authorized clones. |
+| Exonym Wallet | Digital wallet for managing data and transactions, empowering users. |
+| Producer | Creates content adhering to rulebook interpretation, accepted by Advocate. |
+| Consumer | User verifying Proof of Current Honesty. |
 
 ## Core Components
 
 The Rulebook Node consists of the following core components:
 
-### Rulebook Node Web Server
+| Component | Description |
+| --- | --- |
+| Rulebook Node Web Server | Web-based interface for administrative tasks and API key management. |
+| Static Data Replication | Publicly accessible repository for storing signed Node Data (supports read and write operations). |
+| UDP Listener (x0basic) | Listens to Join and Revocation messages from connected Trust Networks. |
 
-- Rulebook Control Panel
-  - A user interface for performing administrative tasks, creating administrators, and managing API keys.
-- Node API: 
-  - Provides detailed operations and functionality for interacting with the Rulebook Node.
-
-### Static Data Replication
-A publicly accessible repository that supports both read (HTTPS) and write (SFTP) operations. This repository is used for storing signed Node Data.
-
-### UDP Listener (x0basic)
-
-Listens to Join and Revocation messages from the Trust Network(s) it is connected to.
-
-As developers, understanding the architecture and functionality of the Rulebook Node is crucial as it forms the foundation for building and managing rulebooks within the Exonym ecosystem. These components work together to provide the necessary infrastructure and tools for efficient rulebook deployment and system operation.
-
-Please refer to the appropriate sections and documentation for more detailed information on each component and its specific functionalities.
 
 # Lifecycle Walkthrough
+This page offers a comprehensive walk-through of Exonym's Decentralised Rulebooks. We'll start by setting up a local rulebook node and appointing administrators. Then, we'll assist you in obtaining an API key and checking your node status.
 
-This page will provide a comprehensive walk-through of Exonym's Decentralised Rulebooks. This session is designed to help you grasp the key aspects of this transformative technology. We'll begin by setting up a local rulebook node and appointing administrators. Following that, we'll assist you in getting an API key ready for use and checking your node status. 
+Next, we'll create Source data based on the rulebook and install the Exonym command-line utility. We'll guide you on adding the source to your trustworthy sources list and explore the generated Source data. 
 
-Next, we'll focus on creating the Source data by referencing the rulebook. After that, we'll install the Exonym command-line utility and guide you on how to add the source to your list of trustworthy sources. We'll take a deep dive into the Source data generated, and, if you wish, we can delve into interpreting the Rulebook. 
+After understanding the Source data, we'll generate Advocate data using the Source as a reference and add the Advocate to the Source. We'll also provide you with a Sybil Test Credential.
 
-Once we have a solid understanding of the Source data, we'll move on to generating Advocate data using the Source as a reference. Adding the Advocate to the Source will be our next step. Afterward, we'll get you a Sybil Test Credential. 
-
-The final steps of our walk-through will involve subscribing to a Rulebook and helping you gain access to a Service. Throughout this walk-through, we aim to provide a seamless and interactive experience, making it as easy as possible to comprehend and utilize Exonym's Decentralised Rulebooks. 
+In the final steps, we'll guide you in subscribing to a Rulebook and gaining access to a Service. Throughout this walk-through, we aim to offer a seamless and interactive experience, simplifying the understanding and utilization of Exonym's Decentralised Rulebooks.
 
 Let's get started!
-
 
 # Installation Instructions
 Please note that these instructions are for Linux-based operating system.  Windows will follow shortly.
@@ -285,6 +267,116 @@ Duplicate UIDs can exist in tests but not in production. Avoid duplicating UIDs 
 
 Rulebooks are either "test-only" or "production". As the rulebook document is immutable, changing a test rulebook to production essentially creates a new rulebook. This division ensures security against social engineering hacks and maintains accountability for production credentials. Avoid using test credentials in a production setting.
 
+# Sybil Test
+
+## Introduction
+Sybil is a special case of a rulebook within the network. It shares similarities with regular rulebooks but includes some distinct features and configurations.
+
+## Credential Specification
+In Sybil, the credential specification allows for the assignment of Sybil class, determining the type of actor. This class can define various types, such as a person, entity, robot, representative, or product. The Sybil class provides additional context and categorization for actors within the network.
+
+## The "Hard-Fork" and "Reciprocal Capabilities" Challenge
+The Sybil rulebook follows a specific configuration known as a vertical or singular rulebook, which is centralized. This configuration consists of one source and one advocate. Unlike regular rulebooks, there will never be more Sources of the Sybil rulebook. 
+
+This guarantee is possible because the code determines what is considered Sybil, and our Software License safeguards the code from unauthorized modification to avoid the consumption of Sybil. Our Pending Patents further prevents the creation of a similar system without utilizing our code. 
+
+While the code is open source, our legal protections ensure that Sybil remains protected and prevents unauthorized consumption of our Sybil service. Broadcasting oneself as a Sybil-Source into production is strictly prohibited.  It does infringe upon our legal and patent protections; but attempting will also result in revocation under the Trustworthy Sources Rulebook - which is a much quicker more cost effective resolution.
+
+Our legal standpoint provides a resolution to the challenges arising from open source software development within the Sybil solution itself. As long as the consumption of Sybil is not evaded, there are no concerns. Additionally, it's important to note that the utilization of Sybil is voluntary.
+
+## Onboarding Process
+The Sybil rulebook has a different onboarding process compared to regular rulebooks. It does not have an open onboarding system where anyone can join. Instead, individuals or entities interested in becoming part of the Sybil rulebook must go through a specific endpoint. The endpoint determines whether to issue the necessary credentials based on certain criteria.
+
+## Rulebook Node Configurations
+In the network, there are two possible configurations for a Rulebook node:
+
+1. Open Onboarding: In this configuration, the privilege of joining the Rulebook is permissionless. Any individual or entity can join the Rulebook by fulfilling the necessary requirements without going through a specific onboarding process.
+
+2. Criteria-based Onboarding: The second configuration requires specific criteria to be met before issuing the necessary credentials. This configuration involves additional tests or checks that need to be passed through the node's API to ensure compliance and suitability.
+
+These configurations provide flexibility in establishing Rulebook nodes based on different network requirements and security considerations.
+
+
+This is where you find Sybil Test
+
+
+This is the Onboarding domain
+```
+    https://t0.sybil.exonym.io
+```
+This is the Rulebook Node domain
+```
+    https://node.t0.sybil.exonym.io
+```
+
+This is the Static Data replication domain
+```
+    https://static.t0.sybil.exonym.io
+```
+
+You will find indexes at: 
+```
+        https://node.t0.sybil.exonym.io/x-source/signatures.xml
+        https://node.t0.sybil.exonym.io/x-node/signatures.xml
+```  
+
+This is the UDP domain
+```
+    x0.t0.sybil.exonym.io
+```
+
+# Source Registration API
+
+## Introduction
+The Source Registration API allows you to register a Source and publish it, so that your Source becomes part of the `NetworkMap`.
+
+This document provides detailed information on how to use the API endpoint `/registerSource` for source registration.
+
+## Availability
+The `/registerSource` endpoint is available on all Rulebook Nodes. You can make requests to this endpoint from any Rulebook Node in the network.
+
+## Configuration
+The following configuration option is available for the `/registerSource` endpoint. If not specified, it defaults to false.
+
+### OPEN_SOURCE_PUBLICATION
+Boolean flag that enables or disables open source publication.
+- Default Value: false
+
+If the `OPEN_SOURCE_PUBLICATION` configuration is set to true, the `/registerSource` endpoint accepts JSON data in the following format and publishes it to the network:
+
+```json
+{
+    "sourceUrl": "",
+    "test": true
+}
+```
+
+If the `test` flag is set to true, you do not need to provide a proof of honesty. 
+Please note that this feature is only available on the test network, as there is currently no production network to publish to. When providing the `sourceUrl`, ensure it is a valid URL.
+
+If the provided URL is verified, the `sources.xml` file will be updated accordingly. 
+
+> N.B you cannot add Advocates to the `sources.xml` list through this API.
+
+## NetworkMap Building
+When a new node starts, it will build its NetworkMap based on the following configuration option:
+
+### SPAWN_WIDER_NETWORK_FROM
+- Description: Configuration option for building the NetworkMap when a note starts.
+- Accepted Values: [Valid Node ID]
+
+Specify a valid Node ID for the `SPAWN_WIDER_NETWORK_FROM` configuration. The note will build its NetworkMap starting from the specified Node ID.
+
+## Additional Information
+
+- In production, all of the apps and notes read from the same index.
+- For testing purposes, you have the flexibility to point your source registration anywhere you like.
+- When testing, it is essential to include Sybil on your list. 
+- When you want your Rulebook to go live, you will need to join a Trustworthy Source's Rulebook.
+- To accomplish this, you will use the command line to send the Sybil Rulebook node URL of your source.
+- Once your proof is verified, the note will add your source to the `sources.xml` for production.
+
+
 # An Independent Source and Advocate
 
 ## Source Definition
@@ -402,7 +494,35 @@ For an example of how the home screen looks for privileged onboarding, take a lo
 
 Note also, that the rule has the word "**many**" in bold face font. Click on the rule to see the original version.
 
-# Wallet Set-up and Test-Net Onboarding
+# Everyday Usage of Rulebooks and Exonym
+Until now we have been looking at establishing the Trust Network that we can imagine as a network of networks that govern the context defined by the rulebook document.
+
+From the perspective of everyday Internet usage, Trust Networks operate in the background. With robust governance mechanisms in place, instances of infringements decrease, leading to more trustworthy transactions compared to environments where infringements go unnoticed.
+
+The everyday application of rulebooks and Exonym primarily revolves around authentications. Here are the various authentication scenarios:
+
+1. **Plain Access**: This authentication process results in the generation of an `endonym` for identifying the user on your service. It ensures secure access while preserving user privacy.
+   1.  Access can also be delegated to a third-party at the first party authenticates.
+
+2. **Sybil Credential Ownership**: By authenticating Sybil Credential Ownership, you can effectively resist clone accounts and prevent fraudulent activities associated with multiple identities.
+
+3. **Arbitrary Standards or Conduct**: Rulebooks can be used to verify compliance with specific standards or requirements of conduct. This ensures that users adhere to predefined guidelines and maintain a desired level of behavior within your platform.
+
+## Authentications with a Web Server:
+Next to look at authentications with a Web server, that is neither a Source, an Advocate, or a Producer.
+
+> Verifiers, in this case, do not require their own identity container. There's no need to register for Sybil authentication.
+
+As part of this local deployment, an example verification web server is provided. To get started with the authentication process, follow these steps:
+
+*Here's what's coming...*
+- We'll start the command line utility
+- Create a new identity wallet
+- Get a Sybil-Test credential
+- Subscribe to your local Advocate
+- Prove ownership to the example server.
+
+## Wallet Set-up and Test-Net Onboarding
 
 Start the command line utility and create a new wallet
 ```
@@ -431,315 +551,116 @@ $$
 
 The wallet you created is Alice $U_A$, she has a Sybil class of `person`.
 
-# Access Demonstration
+## Authentication
 
-> # This is where you left off.
+Navigate to the example container with your browser; the default location is [here](http://localhost:20001). 
 
-# Static Data
-To verify the data that has been created, you can navigate to your FTP site and view the list of published files.
+Scroll down to the bottom and you will see three tiers of access:
+- Basic Auth 
+- Switch on Sybil
+- Switch on Rulebooks
 
-# Source
-In the `STATIC_DATA` folder, you will find a `rulebook.json` file:
+### Producing an Endonym
+If you want to see the endonym created:
+```
+docker logs sso-example -f
+```
 
-```json
+To authenticate using basic authentication, follow these steps:
+
+1. Navigate to the [basic authentication](http://localhost:20001/basic.html) page.
+2. Click "Sign In"
+3. Copy the device link to your clipboard.
+
+Using the command line interface, follow these instructions:
+
+1. Open the command line interface.
+2. Type `prove sso` followed by a space.
+3. Paste the universal link that you copied earlier into the command line.
+4. Press Enter to execute the command.
+
+Once the authentication process is completed, you will notice the word 'Authenticated' displayed on the page. To confirm the establishment of an authenticated session within the context of basic authentication, simply refresh the page. 
+
+In the log files you will see an endonym that is unique to the identity container that authenticated. 
+
+```
+urn:endonym:13bd03c4d4942b4bd65fc168b614a488:263094-a359b95f5b1692022d92075974fb1b9a774010d764e5ca6667125b72d92875e4
+```
+It takes the form:
+```
+urn:endonym:<scope-representation>:<nibble6>-<pseudonym-hash>
+```
+
+- `<scope-representation>` is the last half of a hash of your define scope, so in this case the scope defined by basic auth.
+- `nibble6` is the first 3 bytes of the un-hashed cryptographic pseudonym.
+- `<pseudonym-hash>` is the hashed pseudonym.
+
+Providing you have been given a token that results in the pseudonym, the authentication is complete.  The producer has control of the identity container associated with it.
+
+**Notes:**
+- The process of signing up for a service is identical to the process of authenticating with a service.
+- If the identity container that you are authenticating with contains the requested credentials, the authentications are exactly the same for the utility and the user.
+
+### Set-up
+Select [Switch on Rulebooks~End Point](http://localhost:20001/exonym/rulebooks) to view the result of the GET at `exonym/<authentication-path>`.
+
+You'll find the code in the exonym wallet repository, however I will detail set-up here.
+
+The `qrPngB64` and `link` contain the `challenge` object as defined.
+
+```json 
 {
-  "rulebookId" : "urn:rulebook:29a655983776d9cd7b4be696ed4cd773e63e6d640241e05c3a40b5d81f5d1f1c",
-  "description" : {
-    "name" : "Trustworthy-Sources-Rulebook",
-    "simpleDescriptionEN" : "New sources can be included in the network whitelist by following the standards for selecting and evaluating Advocates.",
-    "production" : false
-  },
-  "rules" : [ {
-    "id" : "urn:rule:0:protected:f291700cfcf950552b1625f2f0023fd3bee9c2f1d8d64887ac5301575d23845b:b5ad98c66835bb37",
-    "description" : "Host rulebooks that offer _[0]protections_ to consumers, without unnecessarily limiting the _[1]freedoms_ of producers.",
-    "interpretations" : [ {
-      "modifier" : "public",
-      "definition" : "protections"
-    }, {
-      "modifier" : "public",
-      "definition" : "freedoms"
-    } ]
-  }, {
-    "id" : "urn:rule:1:protected:079f08418197576e015964fe1f1f97bef2960a3c9bd222ee76de3f0b10ec60b9:b5ad98c66835bb37",
-    "description" : "List only _[0]honest_ Advocates with respect to the scope of the rulebook.",
-    "interpretations" : [ {
-      "modifier" : "public",
-      "definition" : "honest"
-    } ]
-  }, {
-    "id" : "urn:rule:2:public:10a7650e29c4e6a0cc9f8675571005769491d076960755b482d555d8ea181be3:b5ad98c66835bb37",
-    "description" : "Only implement rulebooks _[0]with a narrow scope of applicability to a Producer's online activities_.",
-    "interpretations" : [ {
-      "modifier" : "public",
-      "definition" : "with a narrow scope of applicability to a Producer's online activities"
-    } ]
-  }, {
-    "id" : "urn:rule:3:protected:c8e3cb518192cf88aa11cf0d93072730c9e33c2713f187e1e2e402d8ad6f51ff:b5ad98c66835bb37",
-    "description" : "Restrict the possibilities of malicious actors to _[0]manipulate the rules for their own benefit_ through interpretations.",
-    "interpretations" : [ {
-      "modifier" : "public",
-      "definition" : "manipulate the rules for their own benefit"
-    } ]
-  } ],
-  "ruleExtensions" : [ ],
-  "acceptsSybilClasses" : [ "all" ],
-  "penalties" : {
-    "accountabilityTypes" : [ "test-net" ]
+    "challenge": "zQDmcu08CyAqJvTBQIBCBEd0C08JyVJOj2nCKe9Ozsk\u003d",
+    "domain": "http://localhost:20001/accountability-required",
+    "sybil": true,
+    "honestUnder": {
+      "urn:rulebook:29a655983776d9cd7b4be696ed4cd773e63e6d640241e05c3a40b5d81f5d1f1c": {
+        "rulebookUID": "urn:rulebook:29a655983776d9cd7b4be696ed4cd773e63e6d640241e05c3a40b5d81f5d1f1c",
+        "sourceBlacklist": [],
+        "advocateBlacklist": []
+      }
+    }
   }
 ```
 
-Before a Source or an Advocate is utilized, their static data is inspected. If the information is found to be invalid, any tokens produced under it will fail to verify. Additionally, if a node is corrupted, it is not considered part of the Trust Network.
+## SSO Config
+The `SsoConfigWrapper` class provides a wrapper for the Single Sign-On (SSO) configuration. 
 
-In the `STATIC_DATA/x-source` folder you will find the following files: 
+`SsoConfigWrapper(URI domain)`
 
-| File Name                                     | Description                                                            |
-|-----------------------------------------------|------------------------------------------------------------------------|
-| signatures.xml                                | Binds the files together and ensures secure modifications.             |
-| `<rulebook-hash>`.c.xml                       | `CredentialSpecification` for the rulebook.                             |
-| `<org-name>-<source-name>`.`<rulebook-hash>`.ni.xml | `TrustNetwork` file defining the location of this node's resources.      |
-| `<org-name>-<source-name>`.`<rulebook-hash>`.pp.xml | `PresentationPolicy` file identifying trusted Advocates for this Source. |
+To configure the domain for your service, ensure that it includes the hosting domain and uses TLS (i.e., `https://`). Tokens will be sent to `https://example.com/exonym` for verification.
 
-> `CredentialSpecification` can be fully defined from inspecting the rulebook.json file and is here for convenience.
+You have the flexibility to freely define the path to ring-fence your user's resources.
 
-### Credential Specification
-```xml
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<abc:CredentialSpecification xmlns:abc="http://abc4trust.eu/wp2/abcschemav1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:idmx="http://zurich.ibm.com" xmlns:xs="http://www.w3.org/2001/XMLSchema" Version="1.0" KeyBinding="true" Revocable="true">
-    <abc:SpecificationUID>urn:rulebook:29a655983776d9cd7b4be696ed4cd773e63e6d640241e05c3a40b5d81f5d1f1c:c</abc:SpecificationUID>
-    <abc:AttributeDescriptions MaxLength="256">
-        <abc:AttributeDescription Type="http://abc4trust.eu/wp2/abcschemav1.0/revocationhandle" DataType="xs:integer" Encoding="urn:abc4trust:1.0:encoding:integer:unsigned"/>
-    </abc:AttributeDescriptions>
-</abc:CredentialSpecification>
-```
+In the following example, we create three namespaces, each generating a unique endonym for every user:
 
-### Node Information
-```xml
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<exonym:TrustNetwork xmlns:exonym="urn:exonym:rulebookschema1.0">
-    <exonym:NodeLastUpdatedUTC>2023-05-15T09:26:39Z</exonym:NodeLastUpdatedUTC>
-    <exonym:NodeInformation>
-        <exonym:BroadcastAddress>computer-name:2024</exonym:BroadcastAddress>
-        <exonym:NodeName>unique</exonym:NodeName>
-        <exonym:NodeUID>urn:rulebook:unique:29a655983776d9cd7b4be696ed4cd773e63e6d640241e05c3a40b5d81f5d1f1c</exonym:NodeUID>
-        <exonym:Jurisdiction>DE</exonym:Jurisdiction>
-        <exonym:RulebookNodeURL>http://computer-name:8080</exonym:RulebookNodeURL>
-        <exonym:SourceUID>urn:rulebook:unique:29a655983776d9cd7b4be696ed4cd773e63e6d640241e05c3a40b5d81f5d1f1c</exonym:SourceUID>
-        <exonym:StaticNodeURL0>https://trust.exonym.io/nu3/unique/x-source</exonym:StaticNodeURL0>
-        <exonym:StaticNodeURL1>https://exonym.io/nu3/unique/x-source</exonym:StaticNodeURL1>
-        <exonym:StaticSourceURL0>https://trust.exonym.io/nu3/unique/x-source</exonym:StaticSourceURL0>
-        <exonym:StaticSourceURL1>https://exonym.io/nu3/unique/x-source</exonym:StaticSourceURL1>
-    </exonym:NodeInformation>
-    <exonym:NodeInformationUID>urn:rulebook:unique:29a655983776d9cd7b4be696ed4cd773e63e6d640241e05c3a40b5d81f5d1f1c:ni</exonym:NodeInformationUID>
-</exonym:TrustNetwork>
-```
+1. `/entry`: This namespace handles basic authentication for user accounts.
+2. `/no-clones`: Here, measures are taken to prevent the creation of clone accounts.
+3. `/accountability-required`: This namespace enforces accountability for user actions.
 
-### Presentation Policy
+By utilizing these namespaces, each endpoint securely segregates the associated data and ensures that it is used only within the specified authentication context, providing a higher level of security for your service.
 
-```xml
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<abc:PresentationPolicy xmlns:abc="http://abc4trust.eu/wp2/abcschemav1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:idmx="http://zurich.ibm.com" xmlns:xs="http://www.w3.org/2001/XMLSchema" PolicyUID="urn:rulebook:unique:29a655983776d9cd7b4be696ed4cd773e63e6d640241e05c3a40b5d81f5d1f1c:pp">
-    <abc:Pseudonym Exclusive="false" Scope="urn:io:exonym" Alias="urn:io:exonym"/>
-</abc:PresentationPolicy>
-```
+Example Use Cases:
+
+1. User Account Management:
+   - Authenticate a user's account using basic authentication.
+   - Set up a separate namespace to allow the user to update and modify credit card details securely.
+
+2. Delegated Authentication:
+   - Enable users to delegate authentication to a trusted third-party.
+   - Create a dedicated namespace (e.g., "invoices") for users who wish to delegate access to invoices specifically.
+   - Authenticate users with a specific endonym to grant them access to the designated invoices while maintaining security for other services.
+
+| Method                          | Description                                                     |
+|---------------------------------|-----------------------------------------------------------------|
+| addSourceToBlacklist(URI)       | Adds a source to the blacklist in the SSO configuration.        |
+| addAdvocateToBlacklist(URI)     | Adds an advocate to the blacklist in the SSO configuration.     |
+| requireSybil(boolean)           | Sets whether Sybil authentication is required in the SSO configuration. |
+| getConfig()                     | Retrieves the SSO configuration.                                |
+| requireRulebook(URI)            | Requires a specific rulebook in the SSO configuration.          |
 
 
-### Signatures.xml
-Binds the files together and ensures secure modifications.
-```xml
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<exonym:KeyContainer xmlns:exonym="urn:exonym:rulebookschema1.0">
-    <exonym:KeyPairs>
-        <type>xkey</type>
-        <exonym:KeyUID>urn:keys:rsa:trust-network-root</exonym:KeyUID>
-        <exonym:PublicKey>MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA4+gnq1d+JlJtdTSXHtjkg1pfbz00fylDteQF8aCUmG2OdebjUq1IcoV3gmaoeh2UXUhCJLT3djENhHwxdSrcLlEdFxTAXZsh1OZN1JW+LngWpDc4eHy4eyuHwLMwo48u4kjPcZAbALB7MojHXl/W9sOc2NB4c+vkoicPX5ys7MVdgAdROYYOekZV3lBcgkDBJICmU6Jxk+HbigHzqrFwTqsHQMkuL/d17p3/sBnLiq4x3UMtLv65LILALQZyw8Mpa22Uc8MwaBHFujepoXu9E2BU18h3xiFN7s4tl2b/jwy+Vm1ZN4tgI2mPydUQJwFut1E+VzNdgnkWleQHmd+4mQIDAQAB</exonym:PublicKey>
-        <exonym:Signature>XDhTJiy3sok2kxsMMD4UVpecKjXFROufXo5UTjZlIlgGa+IatLzIHuoEgbek8poZ1aF+9JnNzdcklKdVkkcu7NbMjZMhmmZNHn9dq12j6cZvJbLGcDotxWvBXq1Jdvziso71OCOnciIXNoGmNHJvRp/fFbt1QCD+AmmOGHG1rR9l7nDKHruNMuWUepN7HOa7oaHM7sDUB/i5w07RofHupSWcK8Gg/r93p1Izgk17WO2Ei5vrckxDmDeTJrW1h5gwl8BsQFKmmM602jM7Xn4j2UTuwL5UxVwAsutWQzypyLRfZAjWBZFeB83l0ft6Pgzom65n3+/x8aG+MomDlJGsXA==</exonym:Signature>
-    </exonym:KeyPairs>
-    <exonym:KeyPairs>
-        <type>xkey</type>
-        <exonym:KeyUID>urn:rulebook:unique:29a655983776d9cd7b4be696ed4cd773e63e6d640241e05c3a40b5d81f5d1f1c:pp</exonym:KeyUID>
-        <exonym:Signature>bpPITGvVFi9rzsrdvx/T8OgsHouZ0c46l+kERJ1Q0yRFEqk7cBEF9wXqURogL5iUZaEoS1RLh57KgDbM6OqWttryCMPX4gZuju3uw3+xEO4JgUyCXA8aAOjIfi5DR3IOTrjfkQlV9+n8YMHo71xjFqffJ5yTUzC+I/lkQD89QDojVHTziYW3dhSAwYMiZQ1vd5iwjfwWDBrBfvsGVPiDP+EnngY8qsrQKvufeHz38sJTwEIblgDhdoBA1+QJn1ZPFCZ4H6myNLMuwYOmm4/Gc93yyMu9LbNkegh/fh7dBkLfHv0ebf6nBoDLRfBn8JRhplqXHNnAwsxJwbSiakMVRA==</exonym:Signature>
-    </exonym:KeyPairs>
-    <exonym:KeyPairs>
-        <type>xkey</type>
-        <exonym:KeyUID>urn:rulebook:unique:29a655983776d9cd7b4be696ed4cd773e63e6d640241e05c3a40b5d81f5d1f1c:ni</exonym:KeyUID>
-        <exonym:Signature>svi8Z5GpqmObT2SN3huADzMhVF2qllPGE4GDdvPy/Uz7KC8Or0GkKXr+z2PCrJXbrt9Jm208yQbJJukSjvFK3Lu6tySoy0R0DWf7U84Fdwm/+C+2DCCjqwgT+v2FalSS30Pe09pXGuccSGZdl2feP7aiCAuz0LqGMLGwdKDG2/woT0WJ1Te2YTLrnveN9tGlAjginy0UqU5TBZnOQ/cuwwcXTAJ2l0T1kRPNULnA32iWtsxtbm9/Hh9FAJRXej7VwqoNG4Sh+CpITyKMXTdx5DtYjOJpNTI/XPYMMi0p0jDgQybhuzyCVDqc3RqvEMPzOQcRe+fY7IZjs/ynqXJoQw==</exonym:Signature>
-    </exonym:KeyPairs>
-    <exonym:KeyPairs>
-        <type>xkey</type>
-        <exonym:KeyUID>urn:rulebook:29a655983776d9cd7b4be696ed4cd773e63e6d640241e05c3a40b5d81f5d1f1c:c</exonym:KeyUID>
-        <exonym:Signature>e2ez6O43ay0qtSiinAwKhb2Gmbe0S+gF70WHWMnvLAo5XmwxpCCXKLBxNjNA8cZXesd3+FR1mccEFZUUImKmTMRo9p2ZEdVO3dKk3i4Vq3ffCEV3Ty78az7RAcbi6+fHk0FEAQeTBodQ5nbn9sTwgplp2sXwhccl5iYItyttz0u5fxT4/+cAhVB8Tr7lr7iTbTT8yApxio5EpfuYCT2fzSAtqwyAgsmpUaH7ti33tzvoi6hGg4m0Yfeu41UrgZajoH/9YXU2MzLQ++A4c/44AW1JRbeckHXAdnr8RgIQ8bWsMiRRdw1VyguYceu7f/wgir66CJL8+wzwiEKI56AmbA==</exonym:Signature>
-    </exonym:KeyPairs>
-    <exonym:KeyPairs>
-        <type>xkey</type>
-        <exonym:KeyUID>urn:sig-checksum</exonym:KeyUID>
-        <exonym:Signature>cOW1pV/LurwQ1WjP9gS5ETqremqjEuFn/VniIr7zOJqRQRu65NoE9lNVwXqS4VoQpkexPEuCH37v0HnjKVq0HXpQtFmalwVfpwOh2hBgHv/ylG2vjU8A2VZFF58mNp/mDo0MAFLlmFP0/6DTawAS/HDGzo/tidv14oeK9LEymwMQom2fcpG9SwxiJlCUHLGz+KElo/AtJe18T4O+jsbuxHZsWHKCA+gVq3XrNA1mqdpGSkUSTJfHiYuYuiqHWyPo3TEHFMm82k2nPSZy6n6Y9tTCu17EduSb+T3ZJ6KRuAd4h80GbNTjVnC1BzV5/zJSXe3O2ki3P2fSob9BX0ou4Q==</exonym:Signature>
-    </exonym:KeyPairs>
-    <lastUpdateTime>2023-05-15T09:26:39Z</lastUpdateTime>
-</exonym:KeyContainer>
-```
-
-
-
-# Database
-Exonym uses the no-SQL database `CouchDB` to store its data.
-
-## Containers
-Exonym creates a separate container for each username to store its encrypted Identity Mixer key data. However, the `cache` container is a reserved User ID and is used for caching public key data.
-
-Note that the `cache` container is not intended to store user data and should not be modified directly.
-
-Here's an improved version of the documentation:
-
-## Network
-The Network Map contains verified node data and represents 
-a whitelist of registered Advocates in the network.
-
-When you set up your node, it is not currently part of the 
-Network Map. To become part of the Network Map, you must be 
-added to the trustworthy source list or be added as an 
-Advocate of a trusted source. The process for being listed 
-as a trustworthy source is different depending on whether 
-you are using a test or production environment.
-
-If you're using a test environment, you can add your node to 
-the Network Map via Sybil-Test or by pointing your node 
-at your own trustworthy sources list and building a network 
-map from there. If you're using a production environment, 
-you need to follow a different process to be added to the 
-trustworthy sources list.
-
-If you're using production, you need to prove honesty, under the trustworthy-sources rulebook; and you get onto the list by adding yourself via Sybil.
-
-## Node
-The Node Table contains a local view of the node, which is composed of a row for each Source or Advocate defined on it. It is used to maintain an intrinsic view of the node at runtime.
-
-Both the Node Table and the Network Map are necessary to maintain an accurate and complete view of the node, both intrinsically and extrinsically.
-
-## Users
-Users table contains a row for each; 
-
-- Advocate
-- Source
-- primary-admin
-- secondary-admin (username)
-- api-key
-- plus an RSA Key Pair
-
-If you reset the node, it is only the advocate source and the RSA that is deleted. 
-
-The administrators and the API key are kept intact.
-
-# Sybil Test
-
-## Introduction
-Sybil is a special case of a rulebook within the network. It shares similarities with regular rulebooks but includes some distinct features and configurations.
-
-## Credential Specification
-In Sybil, the credential specification allows for the assignment of Sybil class, determining the type of actor. This class can define various types, such as a person, entity, robot, representative, or product. The Sybil class provides additional context and categorization for actors within the network.
-
-## The "Hard-Fork" and "Reciprocal Capabilities" Challenge
-The Sybil rulebook follows a specific configuration known as a vertical or singular rulebook, which is centralized. This configuration consists of one source and one advocate. Unlike regular rulebooks, there will never be more Sources of the Sybil rulebook. 
-
-This guarantee is possible because the code determines what is considered Sybil, and our Software License safeguards the code from unauthorized modification to avoid the consumption of Sybil. Our Pending Patents further prevents the creation of a similar system without utilizing our code. 
-
-While the code is open source, our legal protections ensure that Sybil remains protected and prevents unauthorized consumption of our Sybil service. Broadcasting oneself as a Sybil-Source into production is strictly prohibited.  It does infringe upon our legal and patent protections; but attempting will also result in revocation under the Trustworthy Sources Rulebook - which is a much quicker more cost effective resolution.
-
-Our legal standpoint provides a resolution to the challenges arising from open source software development within the Sybil solution itself. As long as the consumption of Sybil is not evaded, there are no concerns. Additionally, it's important to note that the utilization of Sybil is voluntary.
-
-## Onboarding Process
-The Sybil rulebook has a different onboarding process compared to regular rulebooks. It does not have an open onboarding system where anyone can join. Instead, individuals or entities interested in becoming part of the Sybil rulebook must go through a specific endpoint. The endpoint determines whether to issue the necessary credentials based on certain criteria.
-
-## Rulebook Node Configurations
-In the network, there are two possible configurations for a Rulebook node:
-
-1. Open Onboarding: In this configuration, the privilege of joining the Rulebook is permissionless. Any individual or entity can join the Rulebook by fulfilling the necessary requirements without going through a specific onboarding process.
-
-2. Criteria-based Onboarding: The second configuration requires specific criteria to be met before issuing the necessary credentials. This configuration involves additional tests or checks that need to be passed through the node's API to ensure compliance and suitability.
-
-These configurations provide flexibility in establishing Rulebook nodes based on different network requirements and security considerations.
-
-
-This is where you find Sybil Test
-
-
-This is the Onboarding domain
-```
-    https://t0.sybil.exonym.io
-```
-This is the Rulebook Node domain
-```
-    https://node.t0.sybil.exonym.io
-```
-
-This is the Static Data replication domain
-```
-    https://static.t0.sybil.exonym.io
-```
-
-You will find indexes at: 
-```
-        https://node.t0.sybil.exonym.io/x-source/signatures.xml
-        https://node.t0.sybil.exonym.io/x-node/signatures.xml
-```  
-
-This is the UDP domain
-```
-    x0.t0.sybil.exonym.io
-```
-
-# Source Registration API
-
-## Introduction
-The Source Registration API allows you to register a Source and publish it, so that your Source becomes part of the `NetworkMap`.
-
-This document provides detailed information on how to use the API endpoint `/registerSource` for source registration.
-
-## Availability
-The `/registerSource` endpoint is available on all Rulebook Nodes. You can make requests to this endpoint from any Rulebook Node in the network.
-
-## Configuration
-The following configuration option is available for the `/registerSource` endpoint. If not specified, it defaults to false.
-
-### OPEN_SOURCE_PUBLICATION
-Boolean flag that enables or disables open source publication.
-- Default Value: false
-
-If the `OPEN_SOURCE_PUBLICATION` configuration is set to true, the `/registerSource` endpoint accepts JSON data in the following format and publishes it to the network:
-
-```json
-{
-    "sourceUrl": "",
-    "test": true
-}
-```
-
-If the `test` flag is set to true, you do not need to provide a proof of honesty. 
-Please note that this feature is only available on the test network, as there is currently no production network to publish to. When providing the `sourceUrl`, ensure it is a valid URL.
-
-If the provided URL is verified, the `sources.xml` file will be updated accordingly. 
-
-> N.B you cannot add Advocates to the `sources.xml` list through this API.
-
-## NetworkMap Building
-When a new node starts, it will build its NetworkMap based on the following configuration option:
-
-### SPAWN_WIDER_NETWORK_FROM
-- Description: Configuration option for building the NetworkMap when a note starts.
-- Accepted Values: [Valid Node ID]
-
-Specify a valid Node ID for the `SPAWN_WIDER_NETWORK_FROM` configuration. The note will build its NetworkMap starting from the specified Node ID.
-
-## Additional Information
-
-- In production, all of the apps and notes read from the same index.
-- For testing purposes, you have the flexibility to point your source registration anywhere you like.
-- When testing, it is essential to include Sybil on your list. 
-- When you want your Rulebook to go live, you will need to join a Trustworthy Source's Rulebook.
-- To accomplish this, you will use the command line to send the Sybil Rulebook node URL of your source.
-- Once your proof is verified, the note will add your source to the `sources.xml` for production.
-
-
-
+> Coming Soon: you will soon have the capability to perform multiple authentications using a single token. This means that if someone authenticates under a rulebook, you will also have the option to authenticate them under all pseudonyms that possess lower authority requirements.
 
 _______
 
